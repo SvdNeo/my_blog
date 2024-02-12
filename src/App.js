@@ -1,24 +1,33 @@
-
+import React, { useState } from 'react';
 import './App.css';
-import { useEffect, useState } from "react";
-import { Public } from './components/Public';
-import { Private } from './components/Private';
+import Results from './components/Results';
+
 function App() {
+  const [students, setStudents] = useState([
+    { name: "Sanjay", grade: 8, id: 1, result: "" },
+    { name: "Vinay", grade: 9, id: 2, result: "" },
+    { name: "Ganesh", grade: 10, id: 3, result: "" },
+    { name: "SanjayD", grade: 8, id: 4, result: "" },
+    { name: "VinayD", grade: 9, id: 5, result: "" },
+    { name: "GaneshB", grade: 10, id: 6, result: "" }
+  ]);
 
-  const [articles, setArticles] = useState([{ name: "Java", id: 1, is_public: true }, { name: "Javascript", id: 2, is_public: false }]);
+  const [selectedGrade, setSelectedGrade] = useState(null);
 
-  const add = (is_public) => {
-    setArticles([...articles, { name: `Article ${articles.length}`, id: articles.length, is_public: is_public }])
+  const handleButtonClick = (grade) => {
+    setSelectedGrade(grade);
   }
-  const [publicArticles, setPublicArticles] = useState([])
-  const [privateArticles, setPrivateArticles] = useState([])
 
-  useEffect(() => {
+  const handlePassFail = (id, result) => {
+    const updatedStudents = students.map(student => {
+      if (student.id === id) {
+        return { ...student, result };
+      }
+      return student;
+    });
+    setStudents(updatedStudents);
+  }
 
-    setPublicArticles(articles.filter(article => article.is_public == true));
-    setPrivateArticles(articles.filter(article => article.is_public == false));
-    console.log(articles)
-  }, [articles]);
   return (
     <div className="App">
       <header className="header">
@@ -26,15 +35,22 @@ function App() {
       </header>
       <main className="main">
         <nav className="nav">Nav</nav>
-        <div className="content">
-          <div className="public">
-            <div>Public Articles</div>
-            <Public pubArt={publicArticles} name="Public Article Component" addPubArt = {add} />
+        <div className='content'>
+          <div>
+            <button onClick={() => handleButtonClick(null)}>All</button>
+            <button onClick={() => handleButtonClick(8)}>8th</button>
+            <button onClick={() => handleButtonClick(9)}>9th</button>
+            <button onClick={() => handleButtonClick(10)}>10th</button>
           </div>
-          <div className="private">
-            <div>Private Articles</div>
-            <Private privArt={privateArticles} name="Private Article Component" addPrivArt = {add} />
-          </div>
+
+          <div>Results</div>
+          <Results
+            schoolName="St.Joseph"
+            EstablishedDate="1995"
+            studentInfo={students}
+            selectedGrade={selectedGrade}
+            onPassFail={handlePassFail}
+          />
         </div>
       </main>
     </div>
