@@ -10,12 +10,13 @@ function Results(props) {
       {schoolName}-{EstablishedDate}
       <div>
         {filteredStudents.map(student => (
-          <div key={student.id}>
-            {student.name} - Grade: {student.grade}
-            <button onClick={() => onPassFail(student.id, "pass")}>Pass</button>
-            <button onClick={() => onPassFail(student.id, "fail")}>Fail</button>
-            {student.result && <span>Result: {student.result}</span>}
-          </div>
+            <div key={student.id}>
+            <div>{student.name} - Grade: {student.grade}</div>
+            <div>Result: {student.result}</div>
+            <button onClick={() => onPassFail(student.id, "Pass")}>Pass</button>
+            <button onClick={() => onPassFail(student.id,"Fail")}>Fail</button>
+        </div>
+          
         ))}
       </div>
     </div>
